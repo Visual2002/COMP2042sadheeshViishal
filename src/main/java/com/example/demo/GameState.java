@@ -11,12 +11,22 @@ public class GameState implements Serializable {
     private int playerHealth;
     private int score;
     private int currentLevel;
+    private double playerX;
+    private double playerY;
 
     private GameState() {
         // Initialize with default values
         playerHealth = 5;
         score = 0;
         currentLevel = 1;
+    }
+
+    public GameState(int playerHealth, double playerX, double playerY, int score, int currentLevel) {
+        this.playerHealth = playerHealth;
+        this.playerX = playerX;
+        this.playerY = playerY;
+        this.score = score;
+        this.currentLevel = currentLevel;
     }
 
     public static GameState getInstance() {

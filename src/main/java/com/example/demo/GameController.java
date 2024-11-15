@@ -5,6 +5,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * GameController manages the game flow, including starting, pausing, and saving the game.
  */
@@ -13,6 +18,11 @@ public class GameController {
     private Stage stage;
     private boolean isPaused;
     private LevelParent currentLevel;
+    private int playerHealth;
+    private double playerX;
+    private double playerY;
+    private int score;
+
 
     /**
      * Constructor for initializing the GameController.
@@ -63,9 +73,25 @@ public class GameController {
     }
 
     /**
-     * Saves the current state of the game (e.g., score, level, health).
+     * Saves the current game state to a file.
      */
     private void saveGame() {
-        // Save game logic (e.g., serialize the game state to a file)
+        String fileName = "savegame.txt";
+
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(fileName)))) {
+            // Save user plane's state
+            writer.println("UserPlaneHealth:" + currentLevel.getUser().getHealth());
+            writer.println("UserPlaneKills:" + currentLevel.getUser().getNumberOfKills());
+
+            // Save level information
+            writer.println("CurrentLevel:" + currentLevel.getClass().getSimpleName());
+
+            // Save enemy information
+            writer.println("EnemiesRemaining:" + currentLevel.getCurrentNumberOfEnemies());
+
+            System.out.println("Game saved successfully to " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving game: " + e.getMessage());
+        }
     }
 }
